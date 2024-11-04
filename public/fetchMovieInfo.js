@@ -47,4 +47,4 @@ const [title, year] = args;
 fetchMovieInfo(title, year);
 
 // enter the below to fetch relevant data
-// node scripts/fetchMovieInfo.js "Movie Title" 2023
+// node public/fetchMovieInfo.js "Movie Title" 2023

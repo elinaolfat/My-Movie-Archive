@@ -15,10 +15,33 @@ function App() {
   const [searchQuery, setSearchQuery] = useState(''); // stores searched query
 
   const apiKey = "a8df0bc1e84c757fef12cc328a2e8411";
-  const popular = "https://api.themoviedb.org/3/movie/popular"; // api popular movies endpoint
+  //const popular = "https://api.themoviedb.org/3/movie/popular"; // api popular movies endpoint
   const search = "https://api.themoviedb.org/3/search/movie"; // api search endpoint
 
+  // Function to fetch watched movies from local JSON
+  const fetchWatchedMovies = async () => {
+    try {
+      const response = await fetch('/watchedMovies.json');
+      const data = await response.json();
+      const sortedMovies = data.sort((a: Movies, b: Movies) => a.title.localeCompare(b.title));
+
+      setMovies(sortedMovies);
+    } catch (error) {
+      console.error("Error fetching watched movies:", error);
+    }
+  };
+  
   useEffect(() => {
+    if (searchQuery) {
+      const url = `${search}?api_key=${apiKey}&query=${searchQuery}`;
+      axios.get(url)
+        .then(response => setMovies(response.data.results))
+        .catch(error => console.error("Error fetching movie data:", error));
+    } else {
+      fetchWatchedMovies();
+    }
+  }, [searchQuery]);
+  /*useEffect(() => {
     const url = searchQuery
       ? `${search}?api_key=${apiKey}&query=${searchQuery}`
       : `${popular}?api_key=${apiKey}`;
@@ -28,9 +51,10 @@ function App() {
     }).catch((error) => {
       console.error("Error fetching movie data:", error);
     });
-  }, [searchQuery]);
+  }, [searchQuery]);*/
 
   return (
+    
     <div className="App">
       
       <div className="searchBarContainer">
