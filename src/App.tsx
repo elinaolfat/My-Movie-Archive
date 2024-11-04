@@ -18,11 +18,11 @@ function App() {
   const popular = "https://api.themoviedb.org/3/movie/popular"; // api popular movies endpoint
   const search = "https://api.themoviedb.org/3/search/movie"; // api search endpoint
 
-  useEffect(()=>{
+  /*useEffect(()=>{
     fetchData();
-  }, [searchQuery])
+  }, [searchQuery])*/
 
-  const fetchData = () => {
+  /*const fetchData = () => {
     const url = searchQuery ? `${search}?api_key=${apiKey}&query=${searchQuery}` : `${popular}?api_key=${apiKey}`;
     axios.get(url).then((response) => {
       setMovies(response.data.results);
@@ -36,7 +36,20 @@ function App() {
     
     })
     */
-  }
+  //}
+
+  useEffect(() => {
+    const url = searchQuery
+      ? `${search}?api_key=${apiKey}&query=${searchQuery}`
+      : `${popular}?api_key=${apiKey}`;
+      
+    axios.get(url).then((response) => {
+      setMovies(response.data.results);
+    }).catch((error) => {
+      console.error("Error fetching movie data:", error);
+    });
+  }, [searchQuery]);
+
   return (
     <div className="App">
       
