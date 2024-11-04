@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
+import {useState, useEffect} from 'react';
+import axios from 'axios'; // using axios for api
+
 import './App.css';
 
 function App() {
+  const [movies, myMovies] = useState();
+  const apiKey = "a8df0bc1e84c757fef12cc328a2e8411";
+  const popular = "https://api.themoviedb.org/3/movie/popular"; // api endpoint
+  
+  useEffect(()=>{
+    fetchData();
+  }, [])
+
+  const fetchData = () => {
+    axios.get(`${popular}?api_key=${apiKey}`).then((response) => {
+      const result = response.data.results; // holds info returned by the link
+      console.log(result);
+    })
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
     </div>
   );
 }
