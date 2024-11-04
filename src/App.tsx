@@ -18,26 +18,6 @@ function App() {
   const popular = "https://api.themoviedb.org/3/movie/popular"; // api popular movies endpoint
   const search = "https://api.themoviedb.org/3/search/movie"; // api search endpoint
 
-  /*useEffect(()=>{
-    fetchData();
-  }, [searchQuery])*/
-
-  /*const fetchData = () => {
-    const url = searchQuery ? `${search}?api_key=${apiKey}&query=${searchQuery}` : `${popular}?api_key=${apiKey}`;
-    axios.get(url).then((response) => {
-      setMovies(response.data.results);
-    });
-    /*
-     axios.get(`${popular}?api_key=${apiKey}`).then((response) => {
-      const result = response.data.results; // holds info returned by the link
-      //console.log(result); // to see format of results
-
-      setMovies(result);
-    
-    })
-    */
-  //}
-
   useEffect(() => {
     const url = searchQuery
       ? `${search}?api_key=${apiKey}&query=${searchQuery}`
@@ -62,7 +42,9 @@ function App() {
         />
       </div>
 
-      <h1 className="pageTitle">Watchlist</h1>
+      <h1 className="pageTitle">
+        {searchQuery === '' ? 'Watchlist' : 'Search Results'}
+      </h1>
 
       {movies.map((items)=> (
         <div className="movieContainer" key={items.id}>
