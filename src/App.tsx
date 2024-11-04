@@ -49,7 +49,7 @@ function App() {
         />
       </div>
 
-      <h1 className="pageTitle">Popular Movies</h1>
+      <h1 className="pageTitle">Watchlist</h1>
 
       {movies.map((items)=> (
         <div className="movieContainer" key={items.id}>
