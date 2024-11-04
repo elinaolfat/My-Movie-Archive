@@ -10,6 +10,32 @@ h1{
   font-family: Georgia, 'Times New Roman', Times, serif;
 }*/
 
+.searchBarContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0; /* Adds spacing at the top and bottom */
+}
+
+.searchBar {
+  width: 60%; /* Adjust the width as needed */
+  max-width: 500px;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  text-align: center;
+}
+
+.pageTitle {
+  font-size: 2.5rem; /* Large font size */
+  margin: 20px auto; /* Centers title vertically with space around it */
+  width: 100%; /* Ensures it spans the full width of the page */
+  font-family: 'Georgia', 'Times New Roman', Times, serif;
+  display: block; /* Ensures it appears on its own line */
+}
+
 .movieContainer{
   display: flex;
   flex-direction: column;
@@ -18,6 +44,7 @@ h1{
 
 .movieContainer > h1{
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 16px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

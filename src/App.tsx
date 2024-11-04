@@ -11,25 +11,46 @@ interface Movies {
 }
 
 function App() {
-  const [movies, myMovies] = useState<Movies[]>([]);
+  const [movies, setMovies] = useState<Movies[]>([]); // movies stores data, setMovies sets the data after fetching
+  const [searchQuery, setSearchQuery] = useState(''); // stores searched query
+
   const apiKey = "a8df0bc1e84c757fef12cc328a2e8411";
-  const popular = "https://api.themoviedb.org/3/movie/popular"; // api endpoint
-  
+  const popular = "https://api.themoviedb.org/3/movie/popular"; // api popular movies endpoint
+  const search = "https://api.themoviedb.org/3/search/movie"; // api search endpoint
+
   useEffect(()=>{
     fetchData();
-  }, [])
+  }, [searchQuery])
 
   const fetchData = () => {
-    axios.get(`${popular}?api_key=${apiKey}`).then((response) => {
+    const url = searchQuery ? `${search}?api_key=${apiKey}&query=${searchQuery}` : `${popular}?api_key=${apiKey}`;
+    axios.get(url).then((response) => {
+      setMovies(response.data.results);
+    });
+    /*
+     axios.get(`${popular}?api_key=${apiKey}`).then((response) => {
       const result = response.data.results; // holds info returned by the link
       //console.log(result); // to see format of results
 
-      myMovies(result);
-
+      setMovies(result);
+    
     })
+    */
   }
   return (
     <div className="App">
+      
+      <div className="searchBarContainer">
+        <input
+          type="text"
+          placeholder="Search for a movie..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)} // Updates the searchQuery state
+        />
+      </div>
+
+      <h1 className="pageTitle">Popular Movies</h1>
+      
       {movies.map((items)=> (
         <div className="movieContainer" key={items.id}>
           <h1>{items.title}</h1>
