@@ -1,13 +1,17 @@
 import {useState, useEffect} from 'react';
 //import axios from 'axios'; // using axios for api
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MovieCard from './MovieCard';
+import MovieInfo from './MovieInfo';
 import './App.css';
 
 // got from console.log(result) so we know what data to fetch
-interface Movies {
+
+export interface Movies {
   id: number;
   title: string;
   poster_path: string;
-  release_date: string
+  release_date: string;
 }
 
 function App() {
@@ -29,12 +33,10 @@ function App() {
     }
   };
 
-  // Effect to fetch movies initially
   useEffect(() => {
     fetchWatchedMovies();
   }, []);
 
-  // Effect to filter movies based on search query
   useEffect(() => {
     if (searchQuery) {
       const filteredMovies = allMovies.filter((movie) =>
@@ -47,37 +49,41 @@ function App() {
   }, [searchQuery, allMovies]);
 
   return (
-    <div className="App">
-      
-      <div className="searchBarContainer">
-        <input
-          type="text"
-          placeholder="Search for a movie..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)} // Updates the searchQuery state
-        />
-        
-        {searchQuery && (<button onClick={() => setSearchQuery('')} className="homeButton">
-          back
-        </button>)}
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="searchBarContainer">
+                  <input
+                    type="text"
+                    placeholder="Search for a movie..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  {searchQuery && (
+                    <button onClick={() => setSearchQuery('')} className="homeButton">
+                      back
+                    </button>
+                  )}
+                </div>
+
+                <h1 className="pageTitle">
+                  {searchQuery === '' ? 'Elina\'s Watchlist' : `Search Results for: ${searchQuery}`}
+                </h1>
+
+                {movies.map((movie) => (
+                  <MovieCard key={movie.id} movie={movie} />
+                ))}
+              </>
+            }
+          />
+          <Route path="/movies/:id" element={<MovieInfo />} />
+        </Routes>
       </div>
-
-      <h1 className="pageTitle">
-        {searchQuery === '' ? 'Elina\'s Watchlist' : `Search Results for: ${searchQuery}`}
-      </h1>
-
-      {movies.map((items)=> (
-        <div className="movieContainer" key={items.id}>
-          <h1>{items.title}</h1>
-
-          {items.poster_path && (
-            <img src={`https://image.tmdb.org/t/p/w200${items.poster_path}`} alt={`${items.title} Poster`}/>
-          )}
-
-          <p>{items.release_date}</p>
-        </div>
-      ))}
-    </div>
+    </Router>
   );
 }
 
