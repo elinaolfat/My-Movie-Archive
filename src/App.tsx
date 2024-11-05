@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import axios from 'axios'; // using axios for api
+//import axios from 'axios'; // using axios for api
 import './App.css';
 
 // got from console.log(result) so we know what data to fetch
@@ -15,11 +15,6 @@ function App() {
   const [allMovies, setAllMovies] = useState<Movies[]>([]); // all movies from watchedMovies.json
   const [searchQuery, setSearchQuery] = useState(''); // stores searched query
 
-  // if want to use api for searchbar:
-  //const apiKey = "a8df0bc1e84c757fef12cc328a2e8411";
-  //const popular = "https://api.themoviedb.org/3/movie/popular"; // api popular movies endpoint
-  //const search = "https://api.themoviedb.org/3/search/movie"; // api search endpoint
-
   // Function to fetch watched movies from local JSON
   const fetchWatchedMovies = async () => {
     try {
@@ -33,29 +28,6 @@ function App() {
       console.error("Error fetching watched movies:", error);
     }
   };
-  
-  /*
-  useEffect(() => {
-    if (searchQuery) {
-      const url = `${search}?api_key=${apiKey}&query=${searchQuery}`;
-      axios.get(url)
-        .then(response => setMovies(response.data.results))
-        .catch(error => console.error("Error fetching movie data:", error));
-    } else {
-      fetchWatchedMovies();
-    }
-  }, [searchQuery]);
-  /*useEffect(() => {
-    const url = searchQuery
-      ? `${search}?api_key=${apiKey}&query=${searchQuery}`
-      : `${popular}?api_key=${apiKey}`;
-      
-    axios.get(url).then((response) => {
-      setMovies(response.data.results);
-    }).catch((error) => {
-      console.error("Error fetching movie data:", error);
-    });
-  }, [searchQuery]);*/
 
   // Effect to fetch movies initially
   useEffect(() => {
@@ -75,7 +47,6 @@ function App() {
   }, [searchQuery, allMovies]);
 
   return (
-    
     <div className="App">
       
       <div className="searchBarContainer">
