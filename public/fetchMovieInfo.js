@@ -4,7 +4,6 @@ const path = require('path');
 
 const apiKey = "a8df0bc1e84c757fef12cc328a2e8411";
 
-// Function to fetch movie info by title and year
 async function fetchMovieInfo(title, year) {
     const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(title)}&year=${year}`;
     try {
