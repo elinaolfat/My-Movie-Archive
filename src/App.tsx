@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 //import axios from 'axios'; // using axios for api
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MovieCard from './MovieCard';
-import MovieInfo from './MovieInfo';
+import MovieDetails from './MovieDetails';
 import './App.css';
 
 // got from console.log(result) so we know what data to fetch
@@ -80,7 +80,7 @@ function App() {
               </>
             }
           />
-          <Route path="/movies/:id" element={<MovieInfo />} />
+          <Route path="/movies/:id" element={<MovieDetails />} />
         </Routes>
       </div>
     </Router>
