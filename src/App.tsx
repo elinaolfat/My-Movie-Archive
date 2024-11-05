@@ -11,12 +11,14 @@ interface Movies {
 }
 
 function App() {
-  const [movies, setMovies] = useState<Movies[]>([]); // movies stores data, setMovies sets the data after fetching
+  const [movies, setMovies] = useState<Movies[]>([]); // movies to display
+  const [allMovies, setAllMovies] = useState<Movies[]>([]); // all movies from watchedMovies.json
   const [searchQuery, setSearchQuery] = useState(''); // stores searched query
 
-  const apiKey = "a8df0bc1e84c757fef12cc328a2e8411";
+  // if want to use api for searchbar:
+  //const apiKey = "a8df0bc1e84c757fef12cc328a2e8411";
   //const popular = "https://api.themoviedb.org/3/movie/popular"; // api popular movies endpoint
-  const search = "https://api.themoviedb.org/3/search/movie"; // api search endpoint
+  //const search = "https://api.themoviedb.org/3/search/movie"; // api search endpoint
 
   // Function to fetch watched movies from local JSON
   const fetchWatchedMovies = async () => {
@@ -26,11 +28,13 @@ function App() {
       const sortedMovies = data.sort((a: Movies, b: Movies) => a.title.localeCompare(b.title));
 
       setMovies(sortedMovies);
+      setAllMovies(sortedMovies);
     } catch (error) {
       console.error("Error fetching watched movies:", error);
     }
   };
   
+  /*
   useEffect(() => {
     if (searchQuery) {
       const url = `${search}?api_key=${apiKey}&query=${searchQuery}`;
@@ -53,6 +57,23 @@ function App() {
     });
   }, [searchQuery]);*/
 
+  // Effect to fetch movies initially
+  useEffect(() => {
+    fetchWatchedMovies();
+  }, []);
+
+  // Effect to filter movies based on search query
+  useEffect(() => {
+    if (searchQuery) {
+      const filteredMovies = allMovies.filter((movie) =>
+        movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setMovies(filteredMovies);
+    } else {
+      setMovies(allMovies); // Reset to all movies if search query is empty
+    }
+  }, [searchQuery, allMovies]);
+
   return (
     
     <div className="App">
@@ -64,10 +85,14 @@ function App() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)} // Updates the searchQuery state
         />
+        
+        {searchQuery && (<button onClick={() => setSearchQuery('')} className="homeButton">
+          back
+        </button>)}
       </div>
 
       <h1 className="pageTitle">
-        {searchQuery === '' ? 'Watchlist' : 'Search Results'}
+        {searchQuery === '' ? 'Elina\'s Watchlist' : `Search Results for: ${searchQuery}`}
       </h1>
 
       {movies.map((items)=> (
