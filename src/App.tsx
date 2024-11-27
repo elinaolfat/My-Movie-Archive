@@ -62,10 +62,11 @@ function App() {
                     placeholder="Search for a movie..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    className="searchBar"
                   />
                   {searchQuery && (
-                    <button onClick={() => setSearchQuery('')} className="homeButton">
-                      back
+                    <button onClick={() => setSearchQuery('')} className="backButton">
+                      back to watchlist
                     </button>
                   )}
                 </div>
