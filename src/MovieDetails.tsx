@@ -48,7 +48,7 @@ const MovieInfo: React.FC = () => {
   return (
     <div className="movieDetailContainer">
       <button onClick={() => navigate('/')} className="backButton">
-        Back to Watchlist
+        back to archive
       </button>
 
       <h1>{movie.title}</h1>

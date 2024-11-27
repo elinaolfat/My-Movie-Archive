@@ -56,6 +56,9 @@ function App() {
             path="/"
             element={
               <>
+                <div className="pageTitleContainer">
+                  <h1 className="pageTitle">ELINA'S MOVIE ARCHIVE</h1>
+                </div>
                 <div className="searchBarContainer">
                   <input
                     type="text"
@@ -66,15 +69,11 @@ function App() {
                   />
                   {searchQuery && (
                     <button onClick={() => setSearchQuery('')} className="backButton">
-                      back to watchlist
+                      back to archive
                     </button>
                   )}
                 </div>
-
-                <h1 className="pageTitle">
-                  {searchQuery === '' ? 'Elina\'s Watchlist' : `Search Results for: ${searchQuery}`}
-                </h1>
-
+                
                 {movies.map((movie) => (
                   <MovieCard key={movie.id} movie={movie} />
                 ))}
