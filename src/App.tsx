@@ -12,12 +12,20 @@ export interface Movies {
   title: string;
   poster_path: string;
   release_date: string;
+  genre_ids: number[];
+}
+
+interface Genre {
+  id: number;
+  name: string;
 }
 
 function App() {
   const [movies, setMovies] = useState<Movies[]>([]); // movies to display
   const [allMovies, setAllMovies] = useState<Movies[]>([]); // all movies from watchedMovies.json
   const [searchQuery, setSearchQuery] = useState(''); // stores searched query
+  const [genres, setGenres] = useState<Genre[]>([]); // Stores fetched genres
+  const [selectedGenre, setSelectedGenre] = useState('All'); // Currently selected genre filter
 
   // Function to fetch watched movies from local JSON
   const fetchWatchedMovies = async () => {
@@ -33,20 +41,44 @@ function App() {
     }
   };
 
+  const fetchGenres = async () => {
+    try {
+      const response = await fetch('/genres.json'); // Update path if necessary
+      const data = await response.json();
+      setGenres(data);
+    } catch (error) {
+      console.error('Error fetching genres:', error);
+    }
+  };
+
   useEffect(() => {
     fetchWatchedMovies();
+    fetchGenres();
   }, []);
 
   useEffect(() => {
-    if (searchQuery) {
-      const filteredMovies = allMovies.filter((movie) =>
-        movie.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setMovies(filteredMovies);
-    } else {
-      setMovies(allMovies); // Reset to all movies if search query is empty
-    }
-  }, [searchQuery, allMovies]);
+    let filteredMovies = allMovies;
+
+  // Apply search query filter if there's a search
+  if (searchQuery) {
+    filteredMovies = filteredMovies.filter((movie) =>
+      movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
+
+  // Apply genre filter if it's not 'All'
+  if (selectedGenre !== 'All') {
+    filteredMovies = filteredMovies.filter((movie) =>
+      movie.genre_ids.some((id) => {
+        const genre = genres.find((g) => g.id === id);
+        return genre?.name === selectedGenre;
+      })
+    );
+  }
+
+  // Set the final filtered list to state
+  setMovies(filteredMovies);
+  }, [searchQuery, selectedGenre, allMovies, genres]);
 
   return (
     <Router>
@@ -59,6 +91,7 @@ function App() {
                 <div className="pageTitleContainer">
                   <h1 className="pageTitle">ELINA'S MOVIE ARCHIVE</h1>
                 </div>
+
                 <div className="searchBarContainer">
                   <input
                     type="text"
@@ -73,7 +106,21 @@ function App() {
                     </button>
                   )}
                 </div>
-                
+
+                <div className="genreFilterContainer">browse by:
+                  <select
+                    value={selectedGenre}
+                    onChange={(e) => setSelectedGenre(e.target.value)}
+                    className="genreDropdown"
+                  >
+                    <option value="All">All Genres</option>
+                    {genres.map((genre) => (
+                      <option key={genre.id} value={genre.name}>
+                        {genre.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 {movies.map((movie) => (
                   <MovieCard key={movie.id} movie={movie} />
                 ))}

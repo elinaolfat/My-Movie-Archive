@@ -54,6 +54,25 @@ body {
   background-position: 100% center;
 }
 
+.genreFilterContainer {
+  text-align: center; /* Left-align the dropdown */
+  width: 100%; /* Make the container take full width */
+  color: #575756;
+}
+
+/* Style for the genre dropdown itself */
+.genreDropdown {
+  width: 35%; /* Ensure the dropdown takes up the full width of the container */
+  padding: 8px 12px; /* Add some padding for a better look */
+  font-size: 16px; /* Make the text in the dropdown a bit larger */
+  border: 1px solid #ccc; /* Add a border to the dropdown */
+  border-radius: 4px; /* Rounded corners */
+  background-color: #fff; /* White background */
+  color: #575756; /* Dark text */
+  box-sizing: border-box; /* Ensure padding doesn't affect the width */
+  margin-left: 10px;
+}
+
 .pageTitleContainer {
   width: 100%; 
   background-color: #f5f5f5; 
