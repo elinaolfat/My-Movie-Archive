@@ -21,11 +21,13 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
 
   return (
     <div className="movieContainer" onClick={handleClick} style={{ cursor: 'pointer' }}>
-      <h1>{movie.title}</h1>
       {movie.poster_path && (
         <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={`${movie.title} Poster`} />
       )}
-      <p>{movie.release_date}</p>
+      <div className="movieInfo">
+      <h1 className="movieTitle">{movie.title}</h1>
+      <p className="movieYear">{new Date(movie.release_date).getFullYear().toString()}</p>
+      </div>
     </div>
   );
 };
