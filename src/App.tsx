@@ -26,6 +26,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState(''); // stores searched query
   const [genres, setGenres] = useState<Genre[]>([]); // Stores fetched genres
   const [selectedGenre, setSelectedGenre] = useState('All'); // Currently selected genre filter
+  const [selectedYear, setSelectedYear] = useState("All"); // Currently selected year filter
 
   // Function to fetch watched movies from local JSON
   const fetchWatchedMovies = async () => {
@@ -75,10 +76,16 @@ function App() {
       })
     );
   }
+  if (selectedYear !== 'All') {
+    filteredMovies = filteredMovies.filter((movie) => {
+      const releaseYear = movie.release_date.split('-')[0]; // Extract year from release_date
+      return releaseYear === selectedYear;
+    });
+  }
 
   // Set the final filtered list to state
   setMovies(filteredMovies);
-  }, [searchQuery, selectedGenre, allMovies, genres]);
+  }, [searchQuery, selectedGenre, selectedYear, allMovies, genres]);
 
   return (
     <Router>
@@ -107,11 +114,13 @@ function App() {
                   )}
                 </div>
 
-                <div className="genreFilterContainer">browse by:
+                <div className="filterContainer">
+                <label>
+                  Browse by:
                   <select
                     value={selectedGenre}
                     onChange={(e) => setSelectedGenre(e.target.value)}
-                    className="genreDropdown"
+                    className="filterDropdown"
                   >
                     <option value="All">All Genres</option>
                     {genres.map((genre) => (
@@ -120,7 +129,25 @@ function App() {
                       </option>
                     ))}
                   </select>
-                </div>
+              
+
+                  <select
+                    value={selectedYear}
+                    onChange={(e) => setSelectedYear(e.target.value)}
+                    className="filterDropdown" // Reusing the same class for consistent styling
+                  >
+                    <option value="All">All Years</option>
+                    {Array.from(new Set(allMovies.map((movie) => movie.release_date.split('-')[0])))
+                      .sort((a, b) => parseInt(b) - parseInt(a))
+                      .map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                  </select>
+                  </label>
+              </div>
+
                 {movies.map((movie) => (
                   <MovieCard key={movie.id} movie={movie} />
                 ))}

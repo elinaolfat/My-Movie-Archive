@@ -46,20 +46,27 @@ const MovieInfo: React.FC = () => {
   }).filter(Boolean);
 
   return (
-    <div className="movieDetailContainer">
+    <div>
       <button onClick={() => navigate('/')} className="backButton">
         back to archive
       </button>
 
-      <h1>{movie.title}</h1>
+      <div className="movieDetailContainer">
       {movie.poster_path && (
-        <img src={`https://image.tmdb.org/t/p/w400${movie.poster_path}`} alt={`${movie.title} Poster`} />
+        <img
+          className="moviePosterDetail"
+          src={`https://image.tmdb.org/t/p/w400${movie.poster_path}`}
+          alt={`${movie.title} Poster`}
+        />
       )}
-      <p>Release Date: {movie.release_date}</p>
-      <p>Overview: {movie.overview}</p>
-      {genreNames && (
-        <p>Genres: {genreNames.join(', ')}</p>
-      )}
+      <div className="movieDetailInfo">
+        <h1 className="movieDetailTitle">{movie.title}</h1>
+        <p className="movieDetailMeta">
+          {movie.release_date.split('-')[0]} • {genreNames.join(', ')}
+        </p>
+        <p className="movieDetailOverview">{movie.overview}</p>
+      </div>
+    </div>
     </div>
   );
 };

@@ -610,22 +610,6 @@
   },
   {
     "adult": false,
-    "backdrop_path": null,
-    "genre_ids": [],
-    "id": 813106,
-    "original_language": "en",
-    "original_title": "Burning",
-    "overview": "'Burning' is a conversation between two young mothers brought together by strange and cruel social realities, at a funeral ghat in Varanasi",
-    "popularity": 0.93,
-    "poster_path": "/hxGv1O2W5SOJTmiBc45CL842mrx.jpg",
-    "release_date": "2018-11-20",
-    "title": "Burning",
-    "video": false,
-    "vote_average": 6,
-    "vote_count": 2
-  },
-  {
-    "adult": false,
     "backdrop_path": "/v0sblc9A8eaE8EqDQ5Y6fELj4oB.jpg",
     "genre_ids": [
       27,
